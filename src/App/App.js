@@ -16,7 +16,10 @@ class App extends Component {
     };
 
     componentDidMount() {
-        // fake date loading from API call
+        this.callAPI();
+    }
+
+    callAPI = () => {
         Promise.all([
             fetch('http://localhost:9090/notes/'),
             fetch('http://localhost:9090/folders/')
@@ -30,17 +33,33 @@ class App extends Component {
             }return Promise.all([notesRes.json(),foldersRes.json()])
         } )
         .then(([notes,folders]) => {
+            console.log(notes,folders);
             this.setState({
                 notes,
                 folders
             })
         })
-        console.log(this.state)
     }
+
+    noteDelete = (id) => {
+        fetch(`http://localhost:9090/notes/${id}`,{
+            method: 'delete',
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(res => {
+            if(!res.ok){
+                console.log('not ok bro');
+            }
+            this.callAPI();
+            return res.json()
+        })
+    }
+
+
+
 
     renderNavRoutes() {
         const {notes, folders} = this.state;
-
         return (
             <>
                 {['/', '/folder/:folderId'].map(path => (
@@ -99,7 +118,8 @@ class App extends Component {
         return (
           <NoteContext.Provider value={{
             notes: [...notes],
-            folders: [...folders]
+            folders: [...folders],
+            noteDelete: this.noteDelete
           }}>
             <div className="App">
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
