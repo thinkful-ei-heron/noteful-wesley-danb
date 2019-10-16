@@ -8,7 +8,6 @@ import NoteContext from '../noteContext'
 
 export default class NotePageNav extends React.Component {
     static contextType = NoteContext
-  //  const {noteId} = props.match.params;
 
   componentDidMount(){
     const note = findNote(this.context.notes, this.props.noteId) || {};
