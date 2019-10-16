@@ -18,7 +18,25 @@ class App extends Component {
 
     componentDidMount() {
         // fake date loading from API call
-        setTimeout(() => this.setState(dummyStore), 600);
+        Promise.all([
+            fetch('http://localhost:9090/notes/'),
+            fetch('http://localhost:9090/folders/')
+        ])
+        .then(([notesRes,foldersRes])  => {
+            if(!notesRes.ok){
+                console.log('notes not okay');
+            }
+            if(!foldersRes.ok){
+                console.log('folders not okay');
+            }return Promise.all([notesRes.json(),foldersRes.json()])
+        } )
+        .then(([notes,folders]) => {
+            this.setState({
+                notes,
+                folders
+            })
+        })
+        console.log(this.state)
     }
 
     renderNavRoutes() {
