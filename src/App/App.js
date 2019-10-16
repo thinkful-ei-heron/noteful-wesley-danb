@@ -39,11 +39,8 @@ class App extends Component {
                   <Route
                       path="/note/:noteId"
                       render={routeProps => {
-                      // const {noteId} = routeProps.match.params;
-                        /* const note = findNote(notes, noteId) || {};
-                          const folder = findFolder(folders, note.folderId);*/
                         return <NotePageNav noteId={routeProps.match.params}
-                                            routeProps={routeProps}/*{...routeProps} folder={folder}*/ />;
+                                            history={routeProps.history} />;
                       }}
                   />
                   <Route path="/add-folder" component={NotePageNav} />
