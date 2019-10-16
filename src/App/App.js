@@ -27,10 +27,6 @@ class App extends Component {
         return (
             <>
                 {['/', '/folder/:folderId'].map(path => (
-                  <NoteContext.Provider value={{
-                    notes: [...notes],
-                    folders: [...folders]
-                  }}>
                     <Route
                         exact
                         key={path}
@@ -39,24 +35,18 @@ class App extends Component {
                             <NoteListNav />
                         )}
                       />
-                  </NoteContext.Provider >
                 ))}
-                <NoteContext.Provider value={{
-                  notes: [...notes],
-                  folders: [...folders]
-                }}>
                   <Route
                       path="/note/:noteId"
                       render={routeProps => {
                       // const {noteId} = routeProps.match.params;
                         /* const note = findNote(notes, noteId) || {};
                           const folder = findFolder(folders, note.folderId);*/
-                        return <NotePageNav noteId={routeProps.match.params.noteId}/*{...routeProps} folder={folder}*/ />;
+                        return <NotePageNav noteId={routeProps.match.params}/*{...routeProps} folder={folder}*/ />;
                       }}
                   />
                   <Route path="/add-folder" component={NotePageNav} />
                   <Route path="/add-note" component={NotePageNav} />
-                </NoteContext.Provider >
             </>
         );
     }
@@ -66,10 +56,6 @@ class App extends Component {
         return (
             <>
                 {['/', '/folder/:folderId'].map(path => (
-                    <NoteContext.Provider value={{
-                      notes: [...notes],
-                      folders: [...folders]
-                    }}>
                     <Route
                         exact
                         key={path}
@@ -88,12 +74,7 @@ class App extends Component {
                             );
                         }}
                     />
-                </NoteContext.Provider >
                 ))}
-                <NoteContext.Provider value={{
-                  notes: [...notes],
-                  folders: [...folders]
-                }}>
                   <Route
                       path="/note/:noteId"
                       render={routeProps => {
@@ -102,13 +83,17 @@ class App extends Component {
                           return <NotePageMain {...routeProps} note={note} />;
                       }}
                   />
-                </NoteContext.Provider >
             </>
         );
     }
 
     render() {
+        const {notes, folders} = this.state;
         return (
+          <NoteContext.Provider value={{
+            notes: [...notes],
+            folders: [...folders]
+          }}>
             <div className="App">
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
                 <header className="App__header">
@@ -119,6 +104,7 @@ class App extends Component {
                 </header>
                 <main className="App__main">{this.renderMainRoutes()}</main>
             </div>
+        </NoteContext.Provider >
         );
     }
 }

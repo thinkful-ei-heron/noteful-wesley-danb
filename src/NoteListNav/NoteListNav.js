@@ -39,7 +39,7 @@ export default class NoteListNav extends React.Component {
         </CircleButton>
       </div>
     </div>
-  )  
+  )
 
 }
 }
