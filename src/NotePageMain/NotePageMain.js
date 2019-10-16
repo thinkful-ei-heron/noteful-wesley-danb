@@ -3,7 +3,6 @@ import Note from '../Note/Note'
 import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './NotePageMain.css'
 
-
 export default function NotePageMain(props) {
   return (
     <section className='NotePageMain'>
